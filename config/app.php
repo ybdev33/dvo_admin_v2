@@ -15,7 +15,7 @@ return [
     |
     */
 
-  'name' => env('APP_NAME', 'Play Mega Games'),
+  'name' => env('APP_NAME', 'Play Dragon Empire'),
 
   /*
     |--------------------------------------------------------------------------
