@@ -2,7 +2,7 @@
     <div class="card mb-4">
       <div class="card-header d-flex align-items-center justify-content-between pb-0">
         <div class="card-title mb-0 row col-12">
-          <h5 class="m-0 col-4">{{ Str::upper($draw) }}</h5>
+          <h5 class="m-0 col-4" type="submit" data-type="card-content"><a href="#">{{ Str::upper($draw) }}</a></h5>
           <small class="fw-semibold col-5 text-center badge <?php echo (str_contains($net_val, '-')) ? 'text-danger bg-label-danger' : 'text-success bg-label-success' ?>">Draw <?php echo isset($draw_val) ? $draw_val : '_' ?></small>
         </div>
         <form class="card-form">

@@ -46,7 +46,7 @@ $( function() {
     }
     
     var title = document.title;
-    document.title = $("#reportType option:selected").text().replace(/ /g,'') +"_"+ $("#drawcategory").val() +"_"+ new Date().toISOString().slice(0, 10);
+    document.title = $("#reportType option:selected").text().replace(/ /g,'') +"_"+ $("#drawcategory").val() +"_"+ $("#date_today").val();
     
     let focuser = setInterval(() => window.dispatchEvent(new Event('focus')), 500);
     
@@ -69,4 +69,16 @@ $( function() {
     // printJS('report-pdf', 'html');
   });
 
+  $("body").on("change", "#reportType", function () {
+    const option = $(this).val();
+    $("#drawcategory").attr("disabled", false);
+    $("#printReport").addClass('d-none');
+    $("#report-pdf").html('No results found.');
+    $("#reportTypeText").text($("#reportType option:selected").text());
+    if (option === 'stallSummary') 
+    {
+      $("#drawcategory").attr("disabled", true);
+      $("#drawcategory").val("");
+    }
+  });
 });

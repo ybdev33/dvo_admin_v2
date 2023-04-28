@@ -73,7 +73,11 @@
 
     <div id="report-print" class="report">
         <h4>{{config('variables.templateName')}} - TALLY SHEET</h4>
-        <h5><?php echo $options['json']['drawcategory'] ?> <?php echo date('m/d/Y h:i:sA') ?></h5>
+        <?php
+        $datefrom = date_create(\Request::get('datefrom'));
+        $dateto = date_create(\Request::get('dateto'));
+        ?>
+        <h5><?php echo $options['json']['drawcategory'] ?> <?php echo date_format($datefrom, "m/d/Y"); ?> - <?php echo date_format($dateto, "m/d/Y"); ?></h5>
         <br />
         <?php
         $total = 0;

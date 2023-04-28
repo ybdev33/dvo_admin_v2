@@ -9,11 +9,12 @@
 @endsection
 
 @section('content')
-<h4 class="fw-semibold py-0 mb-4 no-print"><span class="text-muted fw-light">Reports /</span> Draw</h4>
+<h4 class="fw-semibold py-3 mb-4 no-print"><span class="text-muted fw-light">Reports /</span> <span id="reportTypeText"></span></h4>
 
 <form id="reportPreview" class="form-horizontal" method="POST" role="form">
   @csrf
   <!-- Bootstrap Draw -->
+  <input id="date_today" type="hidden" value="<?php echo date('Y-m-d') ?>" />
   <div class="card mb-4 no-print">
     <h5 class="card-header">Select a date range</h5>
     <div class="card-body">
@@ -27,6 +28,7 @@
               <option value="" selected> --- </option>
               <option value="tallySheet">Tally Sheet</option>
               <option value="drawMunicipality">Draw per Municipality</option>
+              <option value="stallSummary" >Stall Summary</option>
             </select>
           </div>
         </div>
@@ -83,7 +85,7 @@
       <div class="col-md-12 ui-bg-overlay-container p-4">
         <div class="ui-bg-overlay bg-dark opacity-75 rounded-end-bottom"></div>
         <div id="wrapper-pdf" class="fw-semibold text-center overflow-hidden p-3 bg-light">
-          <div id="report-pdf" style="overflow-y: auto;">Loading PDF...</div>
+          <div id="report-pdf">Loading PDF...</div>
         </div>
 
       </div>

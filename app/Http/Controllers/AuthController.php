@@ -72,7 +72,7 @@ class AuthController extends ApiBaseController
                     $drawcategory = json_decode($response->getBody()->getContents());
                     if($drawcategory)
                         $request->session()->put('drawcategory', $drawcategory);
-
+                        
                     $request->session()->put('user', $return['data']);
     
                     return $this->sendResponse($return, $additional);
@@ -119,6 +119,16 @@ class AuthController extends ApiBaseController
         $options['json'] = $request->all();
         $print = $options['json']['print'] ?? false;
 
+        /* USER 1095 */
+        $user = session()->get('user');
+        $datefrom = $options['json']['datefrom'];
+        if( $user->userId >= 1095 )
+        {
+            $datefrom = ( $datefrom < '2023-04-25' ) ? '2023-04-25': $datefrom;
+        }
+        $options['json']['datefrom'] = $datefrom;
+        /* USER 1095 */
+
         if( $options['json']['reportType'] == 'drawMunicipality' )
         {
             $response = AuthService::send('POST', '/api/Report/GetReportPerDraw', $options);
@@ -152,6 +162,23 @@ class AuthController extends ApiBaseController
 
             $preview_pdf = 'content.reports.tally-sheet-pdf';
         }
+        else if( $options['json']['reportType'] == 'stallSummary' ) 
+        {
+            $response = AuthService::send('POST', '/api/Report/GetStallSummary', $options);
+
+            if (!$response)
+                return $this->sendResponse(['success' => false]);
+
+            $return['code'] = $response->getStatusCode();
+            $datas = json_decode($response->getBody()->getContents());
+
+            $collection = collect($datas);
+            $grouped = $collection->groupBy(['userdashId', 'drawCategory', 'area']);
+            $grouped->toArray();
+            $return['data'] = $grouped;
+
+            $preview_pdf = 'content.reports.expenses-pdf';
+        }
 
         // echo "<pre>";
         // print_r($return['data']);
@@ -173,7 +200,7 @@ class AuthController extends ApiBaseController
                     'datas_count' => count((array) $datas)
                 ]);
                 $pdf->setPaper('A4','portrait');
-                return $pdf->download("draw_". $options['json']['drawcategory'] ."_$date.pdf");
+                return $pdf->download("draw_$date.pdf");
             }
 
             return view($preview_pdf, [
@@ -201,6 +228,25 @@ class AuthController extends ApiBaseController
         {
             $return['code'] = $response->getStatusCode();
             $return['data'] = json_decode($response->getBody()->getContents());
+
+            // echo "<pre>";
+            // print_r($return['data']);
+            // echo "</pre>";
+        
+            // die();
+            // $datas = 
+            // [
+            //     (object)
+            //     [
+            //         "userId" => rand(1, 20),
+            //         "areaName" => "areaName ".rand(1, 9999),
+            //         "bet" => rand(1, 9999),
+            //         "hits" => rand(1, 9999),
+            //         "expense" => rand(1, 9999),
+            //         "net" => rand(1, 9999)
+            //     ],
+            // ];
+            // $return['data'] = (object) ['dashUser' => $datas];
 
             // echo "<pre>";
             // print_r($return['data']);

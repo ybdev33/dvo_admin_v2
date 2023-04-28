@@ -39,6 +39,9 @@
   $icon['users'] = 'menu-icon tf-icons bx bx bx-user-circle';
   $icon['reports'] = 'menu-icon tf-icons bx bx-cube-alt';
   $icon['sold-outs'] = 'menu-icon tf-icons bx bx-border-outer';
+  $icon['approval'] = 'menu-icon tf-icons bx bx-wallet';
+  $icon['expenses'] = 'menu-icon tf-icons bx bx-wallet';
+  // $icon['settings'] = 'menu-icon tf-icons bx bx-cog';
 
   $menuData = array();
   foreach ($menu as $item) {

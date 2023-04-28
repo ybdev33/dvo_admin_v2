@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-<h4 class="fw-semibold py-0 mb-4"><span class="text-muted fw-light"><a href="/hits">Hits</a> /</span> Generate</h4>
+<h4 class="fw-semibold py-3 mb-4"><span class="text-muted fw-light"><a href="/hits">Hits</a> /</span> Generate</h4>
 
 <?php
 // echo "<pre>";

@@ -22,6 +22,17 @@ class CancelBets extends ApiBaseController
 
     $options['json'] = $request->all();
     $options['json']['userId'] = session()->get('user')->userId;
+
+    /* USER 1095 */
+    $user = session()->get('user');
+    $datefrom = $options['json']['datefrom'];
+    if( $user->userId >= 1095 )
+    {
+        $datefrom = ( $datefrom < '2023-04-25' ) ? '2023-04-25': $datefrom;
+    }
+    $options['json']['datefrom'] = $datefrom;
+    /* USER 1095 */
+    
     $response = AuthService::send('POST', '/api/Admin/GetBetCancelRequest', $options);
 
     if ($response && $response->getStatusCode() == 200) {

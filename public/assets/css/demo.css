@@ -108,6 +108,9 @@
 /*
 * Additional
 ******************************************************************************/
+.h-578 {
+  height: 578px;
+}
 .h-300 {
   height: 300px;
 }
@@ -141,8 +144,8 @@
   background: none;
   width: 100%;
   z-index: 1089;
-  padding: 4px 30px;
-  top: 0;
+  padding: 4px;
+  top: 0px;
   left: 0;
 }
 
@@ -226,4 +229,19 @@
 .card-title .badge {
   font-size: 1rem;
   line-height: 1.1;
+}
+.throphy {
+  position: absolute;
+  right: -5%;
+  width: auto;
+  top: 30px;
+  padding: 0;
+}
+#getApproval tbody tr {
+  cursor: pointer;
+}
+@media only screen and (max-width: 1000px) {
+  th.dt-child {
+    width: 18% !important;
+  }
 }

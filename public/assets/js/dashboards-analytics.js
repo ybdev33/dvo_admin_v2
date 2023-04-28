@@ -23,70 +23,65 @@
     var totalGross = $("#totalGross").text().replaceAll(',', '');
     // console.log($("#totalGross").text() +" "+ totalGross);
 
-    const incomeChartEl = document.querySelector('#profileReportChart'),
-      incomeChartConfig = {
-        series: [
-          {
-            data: [22161, 26167, 24166, 30364, 16786, totalGross]
-          }
-        ],
+    const profileReportChartEl = document.querySelector('#profileReportChart'),
+      profileReportChartConfig = {
         chart: {
-          width: 220,
-          height: 100,
-          parentHeightOffset: 0,
-          parentWidthOffset: 0,
+          height: 40,
+          // width: 175,
+          type: 'line',
           toolbar: {
             show: false
           },
-          type: 'area'
+          dropShadow: {
+            enabled: true,
+            top: 10,
+            left: 5,
+            blur: 3,
+            color: config.colors.success,
+            opacity: 0.15
+          },
+          sparkline: {
+            enabled: true
+          }
         },
-        tooltip: {
-          enabled: false,
+        grid: {
+          show: false,
+          padding: {
+            right: 8
+          }
         },
+        colors: [config.colors.success],
         dataLabels: {
           enabled: false
         },
         stroke: {
-          width: 2,
+          width: 5,
           curve: 'smooth'
         },
-        legend: {
-          show: false
-        },
-        colors: [config.colors.success],
-        fill: {
-          type: 'gradient',
-          gradient: {
-            shade: shadeColor,
-            shadeIntensity: 0.6,
-            opacityFrom: 0.5,
-            opacityTo: 0.25,
-            stops: [0, 95, 100]
+        series: [
+          {
+            data: [110, 270, 145, 245, 205, 285, totalGross]
           }
-        },
-        grid: {
-          borderColor: '#fff'
-        },
+        ],
         xaxis: {
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
+          show: false,
+          lines: {
             show: false
           },
           labels: {
-            show: false,
+            show: false
+          },
+          axisBorder: {
+            show: false
           }
         },
         yaxis: {
-          labels: {
-            show: false
-          },
+          show: false
         }
       };
-    if (typeof incomeChartEl !== undefined && incomeChartEl !== null) {
-      const incomeChart = new ApexCharts(incomeChartEl, incomeChartConfig);
-      incomeChart.render();
+    if (typeof profileReportChartEl !== undefined && profileReportChartEl !== null) {
+      const profileReportChart = new ApexCharts(profileReportChartEl, profileReportChartConfig);
+      profileReportChart.render();
     }
   }
 
@@ -107,7 +102,7 @@
     var grosstotal = parseNumberString($("#grossTotal").text().replaceAll('-', ''));
     var hitstotal = parseNumberString($("#hitsTotal").text().replaceAll('-', ''));
     var nettotal = parseNumberString($("#netTotal").text().replaceAll('-', ''));
-    
+
     var Totalpercentage;
     var gradientColor = config.colors.primary;
 
@@ -116,26 +111,27 @@
     }
 
     else {
-     
+
       Totalpercentage = "100";
       var netall = Math.sign($("#netTotal").text().replaceAll(',', ''));
 
       if (netall == "-1") {
-       
-         var hitall = $("#hitsTotal").text().replaceAll(',', '');
-         var netsall = $("#netTotal").text().replaceAll(',', '');
 
-        Totalpercentage = parseFloat((netsall / hitall) * 100).toFixed(2);
+        var hitall = parseInt($("#hitsTotal").text().replaceAll(',', ''));
+        var expenseall = parseInt($("#expenseTotal").text().replaceAll(',', ''));
+        var netsall = parseInt($("#netTotal").text().replaceAll(',', ''));
+
+        Totalpercentage = parseFloat((netsall / (hitall + expenseall)) * 100).toFixed(0);
         gradientColor = redColor;
-      } else{
+      } else {
         var grossall = $("#grossTotal").text().replaceAll(',', '');
         var netsall = $("#netTotal").text().replaceAll(',', '');
 
-       Totalpercentage = parseFloat((netsall / grossall) * 100).toFixed(2);
+        Totalpercentage = parseFloat((netsall / grossall) * 100).toFixed(2);
       }
     }
 
-    $("#Totalpercentage").text(Totalpercentage+ "%");
+    $("#Totalpercentage").text(Totalpercentage + "%");
 
     const growthChartEl = document.querySelector('#growthChart'),
       growthChartOptions = {
@@ -316,17 +312,17 @@
                     else {
                       var percentage = "100 %";
                       var net = Math.sign($("#net" + category).text().replaceAll(',', ''));
- 
+
                       if (net == "-1") {
 
                         var hit = $("#hits" + category).text().replaceAll(',', '');
                         var nets = $("#net" + category).text().replaceAll(',', '');
 
                         percentage = parseFloat((nets / hit) * 100).toFixed(2) + "%";
-                      } else{
+                      } else {
                         var gross = $("#gross" + category).text().replaceAll(',', '');
                         var nets = $("#net" + category).text().replaceAll(',', '');
-                
+
                         percentage = parseFloat((nets / gross) * 100).toFixed(2) + "%";
                       }
 
@@ -359,22 +355,22 @@
     chartRender('5s3');
   if ($('#chart9s3').length)
     chartRender('9s3');
-  
+
   if ($('#chart9L2').length)
     chartRender('9L2');
   if ($('#chart4D').length)
     chartRender('4D');
 
-  function loadDashbord(date_change) {
+  function loadDashbord(date_change, draw) {
 
     $.ajax({
-      url: '/api/gaming/load?date=' + date_change,
+      url: '/api/gaming/load?date='+ date_change +'&draw=' + draw,
       type: "GET",
       // timeout: 10000,
       success: function (response) {
         // console.log(response);
         $("#dashboard").html(response);
-        
+
         if ($('#profileReportChart').length)
           profileReportChart();
 
@@ -394,38 +390,15 @@
           chartRender('5s3');
         if ($('#chart9s3').length)
           chartRender('9s3');
-          
+
         if ($('#chart9L2').length)
           chartRender('9L2');
         if ($('#chart4D').length)
           chartRender('4D');
 
-        // scroll dashboard
-        const cardContent1 = document.getElementById('all-content'),
-          cardContent2 = document.getElementById('2s3-content'),
-          cardContent3 = document.getElementById('5s3-content'),
-          cardContent4 = document.getElementById('9s3-content');
-        // --------------------------------------------------------------------
-        if (cardContent1) {
-          new PerfectScrollbar(cardContent1, {
-            wheelPropagation: false
-          });
-        }
-        // --------------------------------------------------------------------
-        if (cardContent2) {
-          new PerfectScrollbar(cardContent2, {
-            wheelPropagation: false
-          });
-        }
-        // --------------------------------------------------------------------
-        if (cardContent3) {
-          new PerfectScrollbar(cardContent3, {
-            wheelPropagation: false
-          });
-        }
-        // --------------------------------------------------------------------
-        if (cardContent4) {
-          new PerfectScrollbar(cardContent4, {
+        const cardContent = document.getElementById('loadTop20');
+        if (cardContent) {
+          new PerfectScrollbar(cardContent, {
             wheelPropagation: false
           });
         }
@@ -438,30 +411,32 @@
 
   $("body").on("change", "#datedash", function (e) {
     var date_change = $(this).val();
-    loadDashbord(date_change);
+    var draw = $("#drawCategory").text();
+    loadDashbord(date_change, draw);
   });
 
   var alertIntervalId = null;
-  
-  var alertInterval = function() {
-    return setInterval(function() {
+
+  var alertInterval = function () {
+    return setInterval(function () {
       // console.log("trigger loading");
       var card_content = $("[data-type='card-content']").data("clicked"); // check areas button clicked
-      if ($('.card-content.d-show').length || $('.card-content.d-show:hover').length || card_content || $("[data-type='card-content']:hover").length)
+      if ($('.card-content.d-show').length || $('.card-content.d-show:hover').length || card_content || $("#loadTop20:hover").length || $("[data-type='card-content']:hover").length || $("button#drawCategory:hover").length || $("#drawCategories:hover").length)
         return;
 
       var date_change = $("#datedash").val();
       var date_now = $("#date_now").val();
-      if( date_change == date_now ) // live only on same date
+      var draw = $("#drawCategory").text();
+      if (date_change == date_now) // live only on same date
       {
         // console.log("live: your_func every 10 second if tab is active");
-        loadDashbord(date_change);
+        loadDashbord(date_change, draw);
       }
 
     }, 10000);
   };
-  
-  function handleVisibilityChange(){
+
+  function handleVisibilityChange() {
     if (document.hidden) {
       clearInterval(alertIntervalId)
       alertIntervalId = null;
@@ -469,7 +444,49 @@
       alertIntervalId = alertIntervalId || alertInterval();
     }
   }
-  
+
   document.addEventListener("visibilitychange", handleVisibilityChange, false);
   handleVisibilityChange();
+
+  // var draw = $("#drawCategory").text();
+  // loadTop20(draw);
+  const cardContent = document.getElementById('loadTop20');
+  if (cardContent) {
+    new PerfectScrollbar(cardContent, {
+      wheelPropagation: false
+    });
+  }
+
+  $("body").on("click", "#drawCategories a", function (e) {
+    var draw = $(this).text();
+    // console.log(draw);
+    $("#drawCategory").text(draw);
+    loadTop20(draw);
+  });
+
+  function loadTop20(draw) {
+    var date_change = $("#datedash").val();
+
+    $.ajax({
+      url: '/api/gaming/loadTop20?date='+ date_change +'&draw=' + draw,
+      type: "GET",
+      // timeout: 10000,
+      success: function (response) {
+        // console.log(response);
+
+        $("#loadTop20").html(response);
+        
+        const cardContent = document.getElementById('loadTop20');
+        if (cardContent) {
+          new PerfectScrollbar(cardContent, {
+            wheelPropagation: false
+          });
+        }
+      },
+      error: function (response) {
+        console.log(response)
+      }
+    });
+  }
+
 })();

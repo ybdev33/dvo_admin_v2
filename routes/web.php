@@ -7,8 +7,10 @@ use App\Http\Controllers\authentications\Login;
 use App\Http\Controllers\modules\Users;
 use App\Http\Controllers\modules\Hits;
 use App\Http\Controllers\modules\CancelBets;
+use App\Http\Controllers\modules\Expenses;
 use App\Http\Controllers\reports\Draw;
 use App\Http\Controllers\modules\SoldOuts;
+use App\Http\Controllers\modules\Settings;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,6 +99,23 @@ Route::middleware('has.admin')->group(function () {
     Route::prefix('reports')->group(function () {
         Route::get('/', [Draw::class, 'index'])->name('reports.index');
         // Route::post('/draw', [Draw::class, 'report'])->name('reports.report');
+    });
+
+    Route::prefix('approval')->group(function () {
+        Route::get('/', [Expenses::class, 'index'])->name('expenses.index');
+        Route::get('/approve', [Expenses::class, 'approve'])->name('expenses.approve');
+    });
+
+    Route::prefix('expenses')->group(function () {
+        Route::get('/', [Expenses::class, 'index'])->name('expenses.index');
+        Route::get('/create', [Expenses::class, 'expensesForm'])->name('expenses.create');
+        Route::post('/create', [Expenses::class, 'createOrUpdate'])->name('expenses.create.post');
+        Route::get('/edit/{id}', [Expenses::class, 'expensesForm'])->name('expenses.edit');
+        Route::post('/edit/{id}', [Expenses::class, 'createOrUpdate'])->name('expenses.edit.post');
+    });
+
+    Route::prefix('settings')->group(function () {
+        Route::get('/', [Settings::class, 'index'])->name('settings.index');
     });
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

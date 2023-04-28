@@ -22,7 +22,7 @@
 @endsection
 
 @section('content')
-<h4 class="fw-semibold py-0 mb-4 no-print"><span class="text-muted fw-light">Hits</h4>
+<h4 class="fw-semibold py-3 mb-4 no-print"><span class="text-muted fw-light">Hits</h4>
 
 <form id="form-module" class="form-horizontal" action="<?php echo url('hits/reset') ?>" method="GET" role="form">
   @csrf

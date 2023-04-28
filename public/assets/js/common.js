@@ -15,8 +15,8 @@ $(document).ready(function () {
     $(this).parents('.card').find('.card-content').height(235);
     $(this).parents('.card').find('.card-content').toggleClass('d-none d-show');
 
-    if ($(this).parents('.card').find('.card-content').hasClass('d-show'))
-    {
+    $('.tooltip').show();
+    if ($(this).parents('.card').find('.card-content').hasClass('d-show')) {
       $(this).data('clicked', true);
       $('.tooltip').hide();
       $(this).parents('.card').find('form.card-form').submit();
@@ -155,24 +155,23 @@ $(document).ready(function () {
 
     $('#form-module').submit(function (e) {
       var button = $(document.activeElement).val();
-      if (button == 'report')
-      {
+      if (button == 'report') {
         const formJson = JSON.stringify(Object.fromEntries(new FormData(this)));
         // console.log(formJson);
-  
+
         // only for mobile
         if (Helpers.isMobileDevice()) {
           $(".layout-page .layout-navbar").hide();
           $(".no-print").hide();
           $("footer").hide();
           $(".ui-bg-overlay-container").removeClass('p-4');
-          
+
           $("#wrapper-pdf").removeClass('d-none').addClass('d-block');
         }
-        
+
         var title = document.title;
-        document.title = "hits_"+ new Date().toISOString().slice(0, 10);
-  
+        document.title = "hits_" + new Date().toISOString().slice(0, 10);
+
         $.ajax({
           url: '/api/gaming/getReportHits',
           type: "POST",
@@ -189,26 +188,26 @@ $(document).ready(function () {
               $(this).submit();
               $("#printReport").removeClass('d-none').addClass('d-block');
               $("#report-pdf").html(response);
-  
+
               let focuser = setInterval(() => window.dispatchEvent(new Event('focus')), 500);
-  
+
               setTimeout(function () {
                 printJS({
                   printable: 'report-pdf',
                   type: 'html',
                   onPrintDialogClose: () => {
-                      // only for mobile
-                      clearInterval(focuser);
-                      document.title = title;
-                      
-                      if (Helpers.isMobileDevice()) {
-                        $(".layout-page .layout-navbar").show();
-                        $(".no-print").show();
-                        $("footer").show();
-                        $(".ui-bg-overlay-container").addClass('p-4');
-  
-                        $("#wrapper-pdf").addClass('d-none');
-                      }
+                    // only for mobile
+                    clearInterval(focuser);
+                    document.title = title;
+
+                    if (Helpers.isMobileDevice()) {
+                      $(".layout-page .layout-navbar").show();
+                      $(".no-print").show();
+                      $("footer").show();
+                      $(".ui-bg-overlay-container").addClass('p-4');
+
+                      $("#wrapper-pdf").addClass('d-none');
+                    }
                   }
                 });
               }, 500);
@@ -219,8 +218,7 @@ $(document).ready(function () {
           }
         });
       }
-      else
-      {
+      else {
         swalWithBootstrapButtons.fire({
           title: 'Are you sure to reset hits?',
           icon: 'question',

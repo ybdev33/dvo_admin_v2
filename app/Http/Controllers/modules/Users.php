@@ -96,6 +96,10 @@ class Users extends ApiBaseController
   {
     $options['json'] = $request->all();
 
+    // echo "<pre>";
+    // print_r($options);
+    // echo "</pre>";
+
     if ($id) {
       $options['json']['userId'] = $id;
       $options['json']['authorId'] = session()->get('user')->userId;
@@ -122,11 +126,6 @@ class Users extends ApiBaseController
       $options['json']['registerById'] = session()->get('user')->userId;
       $response = AuthService::send('POST', '/api/AppUsers/RegisterUser', $options);
     }
-
-    // echo "<pre>";
-    // print_r($options);
-    // echo "</pre>";
-    // die();
     
     if( isset($options['json']['positionId']) && $options['json']['positionId'] == 4 ) // Collector
     {
@@ -229,7 +228,6 @@ class Users extends ApiBaseController
     return $this->sendResponse($return);
   }
 
-  // tag Users
   public function getMasterAreaLocation(Request $request, $id = '')
   {
     $response = AuthService::send('GET', '/api/Common/GetMasterAreaLocation?LocationId='. $request->LocationId);

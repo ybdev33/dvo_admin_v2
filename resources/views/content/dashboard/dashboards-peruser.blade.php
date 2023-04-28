@@ -10,9 +10,12 @@
         <thead>
             <tr>
                 <th width="50%">Area</th>
-                <th width="25%">Bet</th>
-                <th width="25%">Hits</th>
-                <th width="25%">Net</th>
+                <th width="12.5%">Bet</th>
+                <th width="12.5%">Hits</th>
+                @if( $options['json']['drawcategory'] == "All" )
+                <th width="12.5%">Exp</th>
+                @endif
+                <th width="12.5%">Net</th>
             </tr>
         </thead>
         <tbody>
@@ -20,15 +23,18 @@
             @foreach($datas->dashUser as $d => $data)
             <tr data-bs-toggle="collapse" data-bs-target="#area<?php echo $options['json']['drawcategory'] . '-' . $d ?>" aria-expanded="false" aria-controls="#area<?php echo $d ?>" style="<?php echo !empty($data->dashDetail) ? 'cursor: pointer' : '' ?>">
                 <td width="50%" class="<?php echo !empty($data->dashDetail) ? 'text-info' : '' ?> area-name" title="<?php echo $data->areaName ?>"><span>{{$data->areaName}}</span></td>
-                <td width="25%">{{$data->bet}}</td>
-                <td width="25%">{{$data->hits}}</td>
+                <td width="12.5%">{{$data->bet}}</td>
+                <td width="12.5%">{{$data->hits}}</td>
+                @if( $options['json']['drawcategory'] == "All" )
+                <td width="12.5%">{{$data->expense}}</td>
+                @endif
                 <td width="12.5%"><span class="<?php echo str_contains($data->net, '-') ? 'text-danger' : '' ?>">{{$data->net}}</span></td>
             </tr>
             <?php if (!empty($data->dashDetail)) : ?>
-                <tr class="collapse" id="area<?php echo $options['json']['drawcategory'] . '-' . $d ?>">
-                    <td colspan="4" style="padding: 0; background-color: #f5fcfe;">
+                <tr class="collapse text-secondary" id="area<?php echo $options['json']['drawcategory'] . '-' . $d ?>">
+                    <td colspan="<?php echo ( $options['json']['drawcategory'] == "All" ) ? "5": "4" ?>" style="padding: 0; background-color: #f5fcfe;">
                         <div class="text-nowrap">
-                            <table class="table table-sm">
+                            <table class="table table-sm table-responsive">
                                 <thead>
                                     <tr>
                                         <th width="25%">Win Com</th>
@@ -55,11 +61,10 @@
             @endforeach
             @else
             <tr>
-                <td colspan="4" align="center">
+                <td colspan="<?php echo ( $options['json']['drawcategory'] == "All" ) ? "5": "4" ?>" align="center">
                     No data available
                 </td>
             </tr>
             @endif
         </tbody>
     </table>
-</div>

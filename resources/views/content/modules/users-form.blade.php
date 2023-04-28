@@ -7,12 +7,15 @@ $sub_title = \Str::title($segment2);
 @section('title', 'Users '.$sub_title.'')
 
 @section('content')
-<h4 class="fw-semibold py-0 mb-4"><span class="text-muted fw-light"><a href="/users">Users</a> /</span> {{$sub_title}}</h4>
+<h4 class="fw-semibold py-3 mb-4"><span class="text-muted fw-light"><a href="/users">Users</a> /</span> {{$sub_title}}</h4>
 
 @section('page-script')
 
 <script type="text/javascript">
   $(document).ready(function() {
+
+    $('.dropdown-toggle').dropdown();
+
     $('input[name=accountStatus]').change(function() {
       checkValidity();
     });
@@ -51,6 +54,17 @@ $sub_title = \Str::title($segment2);
         $submitbutton.removeAttr("disabled");
       else
         $submitbutton.attr("disabled", "disabled");
+
+      <?php if( $user->position === 'Super Admin' || $user->position === 'Admin' ): ?>
+        <?php if ( $segment2 == 'edit' ): ?>
+          if (password.value == confirm_password.value)
+            $submitbutton.removeAttr("disabled");
+          else
+            $submitbutton.attr("disabled", "disabled");
+          // else if (password.value == "" && confirm_password.value == "")
+
+        <?php endif; ?>
+      <?php endif; ?>
     }
 
     $.ajax({

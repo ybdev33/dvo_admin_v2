@@ -155,6 +155,8 @@ class SoldOuts extends ApiBaseController
     //   $request = '/api/Admin/RmHotnumber?HotNumberId='. $options['hotNumberId'];
     // elseif( $type == 'draw-limit' )
     //   $request = '/api/Admin/RmDrawQouta?SalesId='. $options['salesId'];
+    // elseif( $type == 'bet-limit' )
+    //   $request = '/api/Admin/RmDrawQouta?SalesId='. $options['salesId'];
 
     // var_dump($type);
     // echo "<pre>";

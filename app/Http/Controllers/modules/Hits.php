@@ -23,8 +23,15 @@ class Hits extends ApiBaseController
     $date = $options['Date'];
 
     $return['code'] = $return['data'] = [];
+    $user = session()->get('user');
 
-    $response = AuthService::send('GET', '/api/Admin/GetGenerateHits?Date='. $date);
+    if( $user->userId >= 1095 )
+    {
+      $date = ( $date < '2023-04-25' ) ? '2022-01-01': $date;
+      $response = AuthService::send('GET', '/api/Admin/GetGenerateHits?Date='. $date);
+    }
+    else
+      $response = AuthService::send('GET', '/api/Admin/GetGenerateHits?Date='. $date .'&userId=' . $user->userId);
 
     if ($response && $response->getStatusCode() == 200) {
       $return['code'] = $response->getStatusCode();
