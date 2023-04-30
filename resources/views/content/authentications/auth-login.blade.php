@@ -34,6 +34,11 @@
           <h4 class="mb-2">Welcome to {{config('variables.templateName')}}! 👋</h4>
           <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
+          @php
+          $username = session()->get("username") ?? "";
+          $password = session()->get("password") ?? "";
+          $remember_me = session()->get("username") && session()->get("password") ? "checked='checked'" : "";
+          @endphp
 
           <form id="formAuthentication" class="mb-3">
             @csrf
@@ -42,7 +47,7 @@
             </div>
             <div>
               <label for="email" class="form-label">Username</label>
-              <input type="text" class="form-control" id="email" name="username" placeholder="Enter your username" value="" autofocus>
+              <input type="text" class="form-control" id="email" name="username" placeholder="Enter your username" value="{{$username}}" autofocus>
             </div>
             <small class="text-danger username-error"></small>
             <div class="mt-3 mb-3 form-password-toggle">
@@ -50,14 +55,14 @@
                 <label class="form-label" for="password">Password</label>
               </div>
               <div class="input-group input-group-merge">
-                <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" value="" aria-describedby="password" />
+                <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" value="{{$password}}" />
                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
               </div>
               <small class="text-danger password-error"></small>
             </div>
             <div class="mb-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="remember-me" />
+                <input class="form-check-input" type="checkbox" id="remember-me" name="remember_me" {{$remember_me}} />
                 <label class="form-check-label" for="remember-me"> Remember Me </label>
               </div>
             </div>

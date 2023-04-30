@@ -44,6 +44,16 @@ class AuthController extends ApiBaseController
                     "errors" => $validator->errors()
                 ]);
         } else {
+
+            $remember_me = $request->has('remember_me') ? true : false;
+            if ($remember_me) {
+                $request->session()->put('username', $request->username);
+                $request->session()->put('password', $request->password);
+            } else {
+                session()->pull('username');
+                session()->pull('password');
+            }
+            
             $response = AuthService::send('POST', '/api/AppUsers/GetUsers', $options);
 
             if ($response->getStatusCode() == 200)
