@@ -34,10 +34,15 @@
           <h4 class="mb-2">Welcome to {{config('variables.templateName')}}! 👋</h4>
           <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
+          <?php
+          // echo "<pre>";
+          // print_r($_COOKIE);
+          // echo "</pre>";
+          ?>
           @php
-          $username = session()->get("username") ?? "";
-          $password = session()->get("password") ?? "";
-          $remember_me = session()->get("username") && session()->get("password") ? "checked='checked'" : "";
+          $username = $_COOKIE['username'] ?? "";
+          $password = $_COOKIE['password'] ?? "";
+          $remember_me = $username && $password ? "checked='checked'" : "";
           @endphp
 
           <form id="formAuthentication" class="mb-3">

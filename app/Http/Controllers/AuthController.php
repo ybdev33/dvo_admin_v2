@@ -46,12 +46,22 @@ class AuthController extends ApiBaseController
         } else {
 
             $remember_me = $request->has('remember_me') ? true : false;
+            
             if ($remember_me) {
-                $request->session()->put('username', $request->username);
-                $request->session()->put('password', $request->password);
-            } else {
-                session()->pull('username');
-                session()->pull('password');
+                // 30 days
+                setcookie("username", $request->username, time()+(60*60*24*30), "/");
+                setcookie("password", $request->password, time()+(60*60*24*30), "/");
+            }
+            else
+            {
+                if (isset($_COOKIE['username'])) {
+                    unset($_COOKIE['username']); 
+                    setcookie('username', null, -1, '/'); 
+                }
+                if (isset($_COOKIE['password'])) {
+                    unset($_COOKIE['password']); 
+                    setcookie('password', null, -1, '/'); 
+                }
             }
             
             $response = AuthService::send('POST', '/api/AppUsers/GetUsers', $options);
