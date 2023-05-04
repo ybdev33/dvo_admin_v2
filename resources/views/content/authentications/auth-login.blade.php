@@ -40,8 +40,8 @@
           // echo "</pre>";
           ?>
           @php
-          $username = $_COOKIE['username'] ?? "";
-          $password = $_COOKIE['password'] ?? "";
+          $username = $_COOKIE['username_' . $_SERVER['SERVER_PORT']] ?? "";
+          $password = $_COOKIE['password_' . $_SERVER['SERVER_PORT']] ?? "";
           $remember_me = $username && $password ? "checked='checked'" : "";
           @endphp
 

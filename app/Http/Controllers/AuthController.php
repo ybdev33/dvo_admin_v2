@@ -49,18 +49,18 @@ class AuthController extends ApiBaseController
             
             if ($remember_me) {
                 // 30 days
-                setcookie("username", $request->username, time()+(60*60*24*30), "/");
-                setcookie("password", $request->password, time()+(60*60*24*30), "/");
+                setcookie('username_' . $_SERVER['SERVER_PORT'], $request->username, time()+(60*60*24*30), "/");
+                setcookie('password_' . $_SERVER['SERVER_PORT'], $request->password, time()+(60*60*24*30), "/");
             }
             else
             {
-                if (isset($_COOKIE['username'])) {
-                    unset($_COOKIE['username']); 
-                    setcookie('username', null, -1, '/'); 
+                if (isset($_COOKIE['username_' . $_SERVER['SERVER_PORT']])) {
+                    unset($_COOKIE['username_' . $_SERVER['SERVER_PORT']]); 
+                    setcookie('username_' . $_SERVER['SERVER_PORT'], null, -1, '/'); 
                 }
-                if (isset($_COOKIE['password'])) {
-                    unset($_COOKIE['password']); 
-                    setcookie('password', null, -1, '/'); 
+                if (isset($_COOKIE['password_' . $_SERVER['SERVER_PORT']])) {
+                    unset($_COOKIE['password_' . $_SERVER['SERVER_PORT']]); 
+                    setcookie('password_' . $_SERVER['SERVER_PORT'], null, -1, '/'); 
                 }
             }
             
