@@ -119,7 +119,7 @@
         $datefrom = date_create(\Request::get('datefrom'));
         $dateto = date_create(\Request::get('dateto'));
         ?>
-        <h4><?php echo $options['json']['drawcategory'] ?> DRAW <?php echo date_format($datefrom, "m/d/Y"); ?> - <?php echo date_format($dateto, "m/d/Y"); ?></h4>
+        <h4><?php echo $options['json']['drawcategory'] ?> DRAW <?php echo date_format($datefrom, "m/d/Y"); ?> - <?php echo date_format($dateto, "m/d/Y"); ?> <?php echo date("h:i A"); ?></h4>
         
         <?php
         $grossGrand = $betAmtGrand = $winAmtGrand = $netGrand = 0;
