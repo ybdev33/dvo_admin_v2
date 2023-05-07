@@ -245,4 +245,23 @@ class Users extends ApiBaseController
 
     return $this->sendResponse($return);
   }
+
+  public function resetDevice(Request $request)
+  {
+    $response = AuthService::send('POST', '/api/AppUsers/ResetImie?userId=' . $request->userId);
+
+    if ($response->getStatusCode() == 200) {
+      $return['code'] = $response->getStatusCode();
+      $return['data'] = json_decode($response->getBody()->getContents());
+
+      return response()->json([
+        "status" => true
+      ]);
+    } else {
+      return response()->json([
+        "status" => false,
+        "errors" => ["Invalid"]
+      ]);
+    }
+  }
 }

@@ -12,7 +12,6 @@
 @endsection
 
 @section('page-script')
-<script src="{{asset('assets/js/draw.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/datatables/datatables.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/moment/moment.min.js')}}"></script>
 
@@ -73,6 +72,12 @@
           },
           {
             mRender: function(data, type, row) {
+              return ( row['imei'] != null ) ? '<a href="/users/refresh/' + row['imei'] + '" class="text-primary reset-device" data-id="' + row['userId'] + '"><i class="bx bx-refresh"></i></a>' : '<i class="bx bx-minus"></i>';
+            },
+            visible: "<?php echo (bool) ($user->position === 'Super Admin' || $user->position === 'Admin') ?>"
+          },
+          {
+            mRender: function(data, type, row) {
               return '<a href="/users/edit/' + row['userId'] + '" class="table-delete text-primary" data-id="' + row['userId'] + '"><i class="bx bx-pencil"></i></a>';
             }
           }
@@ -87,6 +92,11 @@
           },
           {
             targets: 7,
+            title: "Device",
+            "className": "text-center",
+          },
+          {
+            targets: 8,
             "className": "text-center",
           }
         ]

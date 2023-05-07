@@ -37,6 +37,7 @@ Route::prefix('gaming')->group(function () {
     Route::post('getDashboardPerUser', [AuthController::class, 'getDashboardPerUser']);
     
     Route::get('getRegisterUser', [Users::class, 'users']);
+    Route::get('resetDevice', [Users::class, 'resetDevice']);
     
     Route::post('activateUser', [AuthController::class, 'activateUser']);
 

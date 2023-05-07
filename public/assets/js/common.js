@@ -603,4 +603,27 @@ $(document).ready(function () {
     $.fn.dataTable.ext.errMode = 'none';
   }
 
+  $("body").on("click", ".reset-device", function (e) {
+    e.preventDefault();
+    
+    var user_id = $(this).data("id");
+    var el = $(this);
+
+    $.ajax({
+      url: '/api/gaming/resetDevice?userId='+ user_id,
+      type: "GET",
+      contentType: 'application/json',
+      processData: false,
+      success: function (response) {
+        // console.log(response.status);
+        if( response.status )
+          el.replaceWith('<i class="bx bx-minus"></i>');
+      },
+      error: function (response) {
+        console.log(response)
+      }
+    });
+
+  });
+
 });
